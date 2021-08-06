@@ -17,11 +17,21 @@ def get_token_address(token: uint256) -> address:
 	return ZERO_ADDRESS	
 
 # Sets the on chain market maker with its owner, and initial token quantities
+# A “Liquidity Provider” deposits two types of tokens into the contract
+# Both tokenA_addr and tokenB_addr should be addresses of valid ERC20 contracts, 
+# and tokenA_amount and tokenB_amount should be the quantities of each token that are being deposited.
+# The sender corresponds to the address which provides liquidity (and therefore is the owner)
 @external
 def provideLiquidity(tokenA_addr: address, tokenB_addr: address, tokenA_quantity: uint256, tokenB_quantity: uint256):
 	assert self.invariant == 0 #This ensures that liquidity can only be provided once
 	#Your code here
+	self.tokenAQty = tokenA_quantity
+	self.tokenBQty = tokenB_quantity
+	self.tokenA = ERC20(get_token_address(tokenA_addr))
+	self.tokenB = ERC20(get_token_address(tokenB_addr))
+
 	assert self.invariant > 0
+
 
 # Trades one token for the other
 @external
@@ -30,6 +40,7 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
 	#Your code here
 
 # Owner can withdraw their funds and destroy the market maker
+# The Liquidity Provider closes the contract and withdraws all tokens
 @external
 def ownerWithdraw():
     assert self.owner == msg.sender

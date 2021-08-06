@@ -27,8 +27,8 @@ def provideLiquidity(tokenA_addr: address, tokenB_addr: address, tokenA_quantity
 	#Your code here
 	self.tokenAQty = tokenA_quantity
 	self.tokenBQty = tokenB_quantity
-	self.tokenA = ERC20(get_token_address(tokenA_addr))
-	self.tokenB = ERC20(get_token_address(tokenB_addr))
+	self.tokenA = ERC20(self.get_token_address(tokenA_addr))
+	self.tokenB = ERC20(self.get_token_address(tokenB_addr))
 
 	assert self.invariant > 0
 

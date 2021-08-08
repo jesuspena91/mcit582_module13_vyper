@@ -48,7 +48,10 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
 
 # Owner can withdraw their funds and destroy the market maker
 # The Liquidity Provider closes the contract and withdraws all tokens
+# If the message sender was the initial liquidity provider, 
+# this should give all tokens held by the contract to the message sender, otherwise it should fail.
 @external
 def ownerWithdraw():
     assert self.owner == msg.sender
 	#Your code here
+	ERC20(self.owner).transfer(msg.sender, self.invariant)

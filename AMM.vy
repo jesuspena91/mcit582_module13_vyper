@@ -54,4 +54,4 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
 def ownerWithdraw():
     assert self.owner == msg.sender
 	#Your code here
-	ERC20(self.owner).transfer(msg.sender, self.invariant)
+	self.owner.transfer(msg.sender, self.invariant)

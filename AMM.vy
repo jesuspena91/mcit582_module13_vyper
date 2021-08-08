@@ -29,15 +29,22 @@ def provideLiquidity(tokenA_addr: address, tokenB_addr: address, tokenA_quantity
 	self.tokenBQty = tokenB_quantity
 	self.tokenA = ERC20(tokenA_addr)
 	self.tokenB = ERC20(tokenB_addr)
+	self.owner = msg.sender
+	self.invariant = self.tokenAQty*self.tokenBQty
 
 	assert self.invariant > 0
 
 
 # Trades one token for the other
+# token_addr should match either tokenA_addr or tokenB_addr, and “amount” 
+# should be the amount of that token being traded to the contract. 
+# The contract should calculate the amount of the other token to return 
+# to the sender using the invariant calculation of Uniswap.
 @external
 def tradeTokens(sell_token: address, sell_quantity: uint256):
 	assert sell_token == self.tokenA.address or sell_token == self.tokenB.address
 	#Your code here
+
 
 # Owner can withdraw their funds and destroy the market maker
 # The Liquidity Provider closes the contract and withdraws all tokens
